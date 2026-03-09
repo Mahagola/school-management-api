@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -9,8 +10,11 @@ const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-
+    database: process.env.DB_NAME,
+    port : process.env.DB_PORT,
+    ssl : {
+        ca : fs.readFileSync(__dirname + '/ca.pem')
+    }
 });
 
 db.connect((err)=>{
